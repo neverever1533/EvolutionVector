@@ -10,6 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import cn.imaginary.toolkit.image.ImageLayer;
+import javaev.awt.DimensionUtils;
+import javaev.awt.PointUtils;
+import javaev.awt.RectangleUtils;
 
 public class FileUtils {
 	private static FileUtils instance;
@@ -256,6 +259,50 @@ public class FileUtils {
 		}
 		return -1;
 	}
+	
+	public RectangleUtils getImageLayersRectangleMin(List<ImageLayer> list) {
+		if (null != list) {
+			ImageLayer layer;
+			PointUtils p;
+			DimensionUtils d;
+			int r;
+			int b;
+			int right = 0;
+			int bottom = 0;
+			int left = -1;
+			int top = -1;
+			for (Iterator<ImageLayer> iterator = list.iterator(); iterator.hasNext();) {
+				layer = iterator.next();
+				if (null != layer && layer.isVisible()) {
+					p = layer.getLocation();
+					d = layer.getSize();
+					if (left < 0) {
+						left = p.x + d.width;
+					}
+					if (top < 0) {
+						top = p.y + d.height;
+					}
+					if (p.x < left) {
+						left = p.x;
+					}
+					if (p.y < top) {
+						top = p.y;
+					}
+					r = p.x + d.width;
+					if (r > right) {
+						right = r;
+					}
+					b = p.y + d.height;
+					if (b > bottom) {
+						bottom = b;
+					}
+				}
+			}
+			return new RectangleUtils(left, top, right - left, bottom - top);
+		}
+		return null;
+	}
+
 
 	public String[] getSuffixArray() {
 		return suffixArray;
