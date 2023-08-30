@@ -224,15 +224,15 @@ public class FileUtils {
 		return null;
 	}
 
-	public ImageLayer getImageLayer(List<ImageLayer> list, String fileName) {
-		if (null != list && null != fileName) {
+	public ImageLayer getImageLayer(List<ImageLayer> list, Object object) {
+		if (null != list && null != object) {
 			ImageLayer imageLayer;
-			String path;
+			Object objectLayer;
 			for (Iterator<ImageLayer> iterator = list.iterator(); iterator.hasNext();) {
 				imageLayer = iterator.next();
 				if (null != imageLayer) {
-					path = imageLayer.getImagePath();
-					if (null != path && path.endsWith(fileName)) {
+					objectLayer = imageLayer.getObject();
+					if (null != objectLayer && objectLayer.equals(object)) {
 						return imageLayer;
 					}
 				}
@@ -259,7 +259,7 @@ public class FileUtils {
 		}
 		return -1;
 	}
-	
+
 	public RectangleUtils getImageLayersRectangleMin(List<ImageLayer> list) {
 		if (null != list) {
 			ImageLayer layer;
@@ -302,7 +302,6 @@ public class FileUtils {
 		}
 		return null;
 	}
-
 
 	public String[] getSuffixArray() {
 		return suffixArray;
