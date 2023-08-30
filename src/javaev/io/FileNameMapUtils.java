@@ -28,6 +28,8 @@ public class FileNameMapUtils {
 		prop.put(".png", "image/png");
 		prop.put(".wbmp", "image/wbmp");
 		prop.put(".datauri", "image/base64");
+		prop.put(".psb", "photoshop/psb");
+		prop.put(".psd", "photoshop/psd");
 		prop.put(".json", "text/json");
 		prop.put(".txt", "text/text");
 		prop.put(".ini", "text/setting");
@@ -37,8 +39,6 @@ public class FileNameMapUtils {
 		prop.put(".js", "text/javascrpit");
 		prop.put(".css", "text/css");
 		prop.put(".csv", "document/csv");
-		prop.put(".psb", "document/psb");
-		prop.put(".psd", "document/psd");
 		prop.put(".pdf", "document/pdf");
 		prop.put(".rtf", "document/rtf");
 		prop.put(".doc", "document/word 97-2003");
@@ -73,6 +73,7 @@ public class FileNameMapUtils {
 	private int type_image = 3;
 	private int type_text = 4;
 	private int type_video = 5;
+	private int type_photoshop = 6;
 
 	public String getContentTypeFor(File file) {
 		return getContentTypeForFileNameSuffix(fileUtils.getFileNameSuffix(file));
@@ -101,6 +102,10 @@ public class FileNameMapUtils {
 		return isTypeFile(getContentTypeFor(file), type_image);
 	}
 
+	public boolean isFilePhotoshop(File file) {
+		return isTypeFile(getContentTypeFor(file), type_photoshop);
+	}
+
 	public boolean isFileText(File file) {
 		return isTypeFile(getContentTypeFor(file), type_text);
 	}
@@ -110,6 +115,10 @@ public class FileNameMapUtils {
 			String type = typeName.toLowerCase();
 			if (typeStyle == type_image) {
 				if (type.startsWith("image")) {
+					return true;
+				}
+			} else if (typeStyle == type_photoshop) {
+				if (type.startsWith("photoshop")) {
 					return true;
 				}
 			} else if (typeStyle == type_text) {
