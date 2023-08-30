@@ -56,6 +56,7 @@ public class DefaultTreeModelUtils {
 			DefaultMutableTreeNode node;
 			DefaultMutableTreeNode nodeParent;
 			DefaultMutableTreeNode nodeChild;
+			String temp;
 			Object object_super;
 			Object object_this;
 			Object object;
@@ -65,13 +66,15 @@ public class DefaultTreeModelUtils {
 					layerNode = (LayerNode) object;
 					object_super = layerNode.getObjectSuper();
 					if (null != object_super) {
-						object_super = object_super.toString();
+						temp = object_super.toString();
+						object_super = temp;
 					} else {
 						object_super = tag_null;
 					}
 					object_this = layerNode.getObject();
 					if (null != object_this) {
-						object_this = object_this.toString();
+						temp = object_this.toString();
+						object_this = temp;
 					} else {
 						object_this = tag_null;
 					}
@@ -82,7 +85,8 @@ public class DefaultTreeModelUtils {
 						if (null != node) {
 							object = node.getUserObject();
 							if (null != object) {
-								object = object.toString();
+								temp = object.toString();
+								object = temp;
 							} else {
 								object = tag_null;
 							}
@@ -106,9 +110,7 @@ public class DefaultTreeModelUtils {
 			int size = properties.size();
 			List<Object> list = new ArrayList<>();
 			Object object;
-//			for (int i = 0, iLength = size; i < iLength; i++) {
 			for (int i = size - 1; i >= 0; i--) {
-//			for (int i = size; i >= 0; i--) {
 				object = properties.get(i);
 				if (null != object) {
 					list.add(object);
