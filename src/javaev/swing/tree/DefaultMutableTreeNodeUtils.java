@@ -99,6 +99,7 @@ public class DefaultMutableTreeNodeUtils {
 			}
 			TreeNode nodeParent;
 			DefaultMutableTreeNode node;
+			String temp;
 			Object object_super = null;
 			Object object_this = null;
 			LayerNode node_;
@@ -109,13 +110,15 @@ public class DefaultMutableTreeNodeUtils {
 				object_super = null;
 			}
 			if (null != object_super) {
-				object_super = object_super.toString();
+				temp = object_super.toString();
+				object_super = temp;
 			} else {
 				object_super = tag_null;
 			}
 			object_this = treeNode.getUserObject();
 			if (null != object_this) {
-				object_this = object_this.toString();
+				temp = object_this.toString();
+				object_this = temp;
 			} else {
 				object_this = tag_null;
 			}
