@@ -21,6 +21,8 @@ public class DefaultTreeModelUtils {
 
 	private DefaultMutableTreeNodeUtils treeNodeUtils = new DefaultMutableTreeNodeUtils();
 
+	private ObjectUtils objectUtils = new ObjectUtils();
+
 	public DefaultTreeModelUtils() {
 	}
 
@@ -43,7 +45,7 @@ public class DefaultTreeModelUtils {
 		return getTreeNode(getModel(), object);
 	}
 
-	public DefaultTreeModel loadNode(DefaultTreeModel treeModel, List<Object> list) {
+	public DefaultTreeModel loadNode(DefaultTreeModel treeModel, List<LayerNode> list) {
 		if (null != list) {
 			DefaultMutableTreeNode nodeRoot;
 			if (null == treeModel) {
@@ -60,7 +62,7 @@ public class DefaultTreeModelUtils {
 			Object object_super;
 			Object object_this;
 			Object object;
-			for (Iterator<Object> iterator = list.iterator(); iterator.hasNext();) {
+			for (Iterator<LayerNode> iterator = list.iterator(); iterator.hasNext();) {
 				object = iterator.next();
 				if (null != object && object instanceof LayerNode) {
 					layerNode = (LayerNode) object;
@@ -80,6 +82,9 @@ public class DefaultTreeModelUtils {
 					}
 					nodeParent = treeNodeUtils.getTreeNode(nodeRoot, object_super);
 					nodeChild = treeNodeUtils.getTreeNode(nodeRoot, object_this);
+					if(null == nodeParent) {
+						nodeParent = nodeRoot;
+					}
 					if (null != nodeParent && null != nodeChild) {
 						node = (DefaultMutableTreeNode) nodeChild.getParent();
 						if (null != node) {
@@ -93,7 +98,8 @@ public class DefaultTreeModelUtils {
 							if (!object.equals(object_super)) {
 								if (nodeParent.getAllowsChildren()) {
 									treeModel.removeNodeFromParent(nodeChild);
-									treeModel.insertNodeInto(nodeChild, nodeParent, 0);
+//									treeModel.insertNodeInto(nodeChild, nodeParent, 0);
+									treeModel.insertNodeInto(nodeChild, nodeParent, nodeParent.getChildCount());
 									treeModel.nodeChanged(nodeRoot);
 								}
 							}
@@ -106,14 +112,26 @@ public class DefaultTreeModelUtils {
 	}
 
 	public DefaultTreeModel loadNode(DefaultTreeModel treeModel, Properties properties) {
+		System.out.println(1);
 		if (null != properties) {
+			System.out.println(2);
 			int size = properties.size();
-			List<Object> list = new ArrayList<>();
+			System.out.print("size:");
+			System.out.println(size);
+			List<LayerNode> list = new ArrayList<>();
 			Object object;
 			for (int i = size - 1; i >= 0; i--) {
 				object = properties.get(i);
+				System.out.print(i);
+				System.out.print(":");
+				System.out.println(object);
 				if (null != object) {
-					list.add(object);
+					if (object instanceof String) {
+						object = objectUtils.getObject(object.toString());
+					}
+					if (null != object && object instanceof LayerNode) {
+						list.add((LayerNode) object);
+					}
 				}
 			}
 			return loadNode(treeModel, list);
